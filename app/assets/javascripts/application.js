@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap/bootstrap.min
 //= require bootstrap/bootstrap-alert
 //= require bootstrap/bootstrap-button
 //= require bootstrap/bootstrap-collapse
