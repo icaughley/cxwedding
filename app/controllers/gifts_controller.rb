@@ -1,4 +1,7 @@
 class GiftsController < ApplicationController
+
+  before_filter :authenticate_user!
+
   # GET /gifts
   def index
     @gifts = Gift.all

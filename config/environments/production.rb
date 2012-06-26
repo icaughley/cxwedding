@@ -51,6 +51,9 @@ Cxwedding::Application.configure do
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
 
+  # Ian - Devise told me to add this
+  config.action_mailer.default_url_options = { :host => 'smooth-wind-8344.herokuapp.com' }
+
   # Enable threaded mode
   # config.threadsafe!
 

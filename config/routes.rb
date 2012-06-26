@@ -1,4 +1,6 @@
 Cxwedding::Application.routes.draw do
+  devise_for :users
+
   resources :gifts
 
   root :to => 'gifts#index'
