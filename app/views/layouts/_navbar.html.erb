@@ -2,8 +2,13 @@
   <div class="navbar-inner">
     <div class="container">
       <a class="brand" href="/">CXWedding</a>
-
       <% if user_signed_in? %>
+        <% if current_user.admin? %>
+          <ul class="nav">
+            <li><%= link_to 'Users', users_path %></li>
+          </ul>
+        <% end %>
+
         <div class="btn-group pull-right">
           <button class="btn dropdown-toggle" data-toggle="dropdown">
             <i class="icon-user"></i>

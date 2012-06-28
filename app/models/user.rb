@@ -6,6 +6,14 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :admin
   # attr_accessible :title, :body
+
+  after_find :set_first_to_admin
+
+
+  # The number 1 user is always an admin
+  def set_first_to_admin
+    self.admin = true if( id == 1 )
+  end
 end
