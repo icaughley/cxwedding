@@ -26,7 +26,7 @@ gem 'jquery-rails'
 gem 'bootstrap-sass', '~>2.0'
 #gem 'dropbox-sdk'
 gem 'devise'
-gem 'in_place_editing'
+#gem 'on_the_spot'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
