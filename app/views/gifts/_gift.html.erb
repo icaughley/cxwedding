@@ -1,8 +1,16 @@
-<tr>
+<% action_url = current_user.admin? ? edit_gift_path(gift) : gift_path(gift) %>
+<tr data-toggle="modal" href="#modal" action_url="<%= action_url %>">
   <td><%= gift.title %></td>
   <td><%= gift.description %></td>
   <td><%= gift.location %></td>
-  <td><%= gift.value %></td>
+  <td>$<%= gift.value %></td>
+  <td>
+    <% if gift.user.nil? %>
+      <span class="badge badge-success"><i class="icon-ok-sign icon-white"></i> Available</span>
+    <% else %>
+      <span class="btn btn-danger"><i class="icon-minus-sign icon-white"></i> taken</span>
+    <% end %>
+  </td>
   <td>
     <div class='btn-group'>
       <%= link_to 'Show', gift, class: 'btn' %>

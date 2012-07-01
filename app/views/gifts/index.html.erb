@@ -1,6 +1,6 @@
 <h1>Listing gifts</h1>
 
-<table>
+<table class="table table-bordered table-striped table-condensed">
   <tr>
     <th>Title</th>
     <th>Description</th>
@@ -8,26 +8,15 @@
     <th>Value</th>
     <th></th>
     <th></th>
-    <th></th>
   </tr>
 
-<% @gifts.each do |gift| %>
-  <tr>
-    <td><%= gift.title %></td>
-    <td><%= gift.description %></td>
-    <td><%= gift.location %></td>
-    <td><%= gift.value %></td>
-    <td>
-      <div class='btn-group'>
-        <%= link_to 'Show', gift, class: 'btn' %>
-        <%= link_to 'Edit', edit_gift_path(gift), class: 'btn' %>
-        <%= link_to 'Destroy', gift, confirm: 'Are you sure?', method: :delete, class: 'btn' %>
-      </div>
-    </td>
-  </tr>
-<% end %>
+  <%= render @gifts %>
+
 </table>
 
-<br />
+<br/>
 
 <%= link_to 'New Gift', new_gift_path, class: "btn" %>
+
+
+<%= render :partial => 'modal' %>
