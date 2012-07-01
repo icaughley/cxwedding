@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
 
   after_find :set_first_to_admin
 
+  has_many :gifts
 
   # The number 1 user is always an admin
   def set_first_to_admin
