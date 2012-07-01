@@ -1,16 +1,18 @@
 <h1>Listing users</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Email</th>
-    <th></th>
-  </tr>
+<div class="row">
+  <table class="table table-bordered table-striped table-condendsed span4">
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th></th>
+    </tr>
 
-<%= render @users %>
+    <%= render @users %>
 
-</table>
+  </table>
+</div>
 
-<br />
+<br/>
 
-<%= link_to 'New User', new_user_path %>
+<%= link_to 'New User', new_user_path, class: "btn" %>
