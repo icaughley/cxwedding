@@ -1,5 +1,5 @@
 <% action_url = current_user.admin? ? edit_gift_path(gift) : gift_path(gift) %>
-<tr data-toggle="modal" href="#modal" action_url="<%= action_url %>">
+<tr action_url="<%= action_url %>">
   <td><%= gift.title %></td>
   <td><%= gift.description %></td>
   <td><%= gift.location %></td>
