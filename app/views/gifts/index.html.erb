@@ -1,14 +1,14 @@
 <h1>Listing gifts</h1>
 
-<table class="table table-bordered table-striped table-condensed">
-  <tr>
+<table class="table table-bordered table-condensed" id="gifts_table">
+  <tr class="button-primary">
     <th>Title</th>
     <th>Description</th>
     <th>Location</th>
     <th>Value</th>
     <th></th>
-    <th></th>
   </tr>
+  <!-- The onclick below is just to make safari on iPad work. -->
   <tbody data-toggle="modal" href="#modal" onclick="">
     <%= render @gifts %>
   </tbody>
@@ -16,7 +16,4 @@
 
 <br/>
 
-<%= link_to 'New Gift', new_gift_path, class: "btn" %>
-
-
-<%= render :partial => 'modal' %>
+<button data-toggle="modal" href="#modal" class="btn" action_url="<%=new_gift_path%>">New Gift</button>
