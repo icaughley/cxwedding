@@ -1,7 +1,7 @@
 <div class="modal hide fade static" id="modal">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
-    <h3 id="modal-heading">Edit gift</h3>
+    <h3 id="modal-heading"></h3>
   </div>
 
   <div class="modal-body"></div>
@@ -18,8 +18,13 @@
   });
 
   $('#modal').on('show', function () {
-    var action_url = $(event.target).parents('tr').attr('action_url');
-    $.ajax(action_url);
+    // Go up the DOM until you find an element with an action_url
+    var node = $(event.target);
+    while( node.attr('action_url') == null )
+    {
+      node = node.parent();
+    }
+    $.ajax(node.attr('action_url'));
   })
 
   $('#modal').on('hidden', function () {

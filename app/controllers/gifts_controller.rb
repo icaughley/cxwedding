@@ -2,6 +2,9 @@ class GiftsController < ApplicationController
 
   before_filter :authenticate_user!
 
+  #can_edit_on_the_spot
+
+
   # GET /gifts
   def index
     @gifts = Gift.all
@@ -25,11 +28,9 @@ class GiftsController < ApplicationController
   # POST /gifts
   def create
     @gift = Gift.new(params[:gift])
-
-    if @gift.save
-      redirect_to @gift, notice: 'Gift was successfully created.'
-    else
-      render action: :new
+    @saved = @gift.save
+    if @saved
+      flash[:notice] = 'Gift was successfully created.'
     end
   end
 
@@ -48,7 +49,6 @@ class GiftsController < ApplicationController
   def destroy
     @gift = Gift.find(params[:id])
     @gift.destroy
-
-    redirect_to gifts_url
+    flash[:notice] = 'Gift has been deleted.'
   end
 end

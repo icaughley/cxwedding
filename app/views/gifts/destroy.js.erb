@@ -1,0 +1,7 @@
+<% if @saved %>
+  <%= update_flash_messages %>
+  $('#gifts_table tbody').append('<%= escape_javascript( render @gift )%>');
+  <%= hide_modal %>
+<% else %>
+  $('#modal > .modal-body').html('<%= escape_javascript( render 'form' ) %>');
+<% end %>
