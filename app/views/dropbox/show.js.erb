@@ -1,0 +1,4 @@
+$('#modal > .modal-header > h3').text( '<%= @image_name %>' );
+$('#modal > .modal-body').html( '<%= escape_javascript( raw "<img src='#{@image_url}'>" ) %>');
+
+

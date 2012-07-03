@@ -24,9 +24,10 @@ end
 
 gem 'jquery-rails'
 gem 'bootstrap-sass', '~>2.0'
-#gem 'dropbox-sdk'
+gem 'dropbox-sdk'
 gem 'devise'
 #gem 'on_the_spot'
+gem 'rmagick', '~>2.0'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

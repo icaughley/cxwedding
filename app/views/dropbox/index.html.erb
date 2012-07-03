@@ -1,0 +1,8 @@
+<table data-toggle="modal" href="#modal" onclick="">
+  <% @images.each do |image| %>
+    <tr action_url="/dropbox/show?img=<%= image %>">
+      <td><%= image %>"</td>
+      <td><img src="/dropbox/thumbnail?img=<%= image %>"/></td>
+    </tr>
+  <% end %>
+</table>

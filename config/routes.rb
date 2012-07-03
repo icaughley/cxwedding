@@ -1,16 +1,24 @@
 Cxwedding::Application.routes.draw do
+
+  root :to => 'gifts#index'
+
   devise_for :users
 
-  resources :gifts
+  resources :gifts do
+    collection do
+      put :update_attribute_on_the_spot
+    end
+  end
+
   resources :users do
     put 'toggle_admin'
   end
 
-  root :to => 'gifts#index'
-
-  match 'db/authorize' => 'dropbox#authorize'
-  match 'db/upload' => 'dropbox#upload'
-  match 'db' => 'dropbox#index'
+  match 'dropbox/authorize' => 'dropbox#authorize'
+  match 'dropbox/upload' => 'dropbox#upload'
+  match 'dropbox/thumbnail' => 'dropbox#thumbnail'
+  match 'dropbox/show' => 'dropbox#show'
+  match 'dropbox' => 'dropbox#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
