@@ -17,16 +17,6 @@
     show:false
   });
 
-  $('#modal').on('show', function () {
-    // Go up the DOM until you find an element with an action_url
-    var node = $(event.target);
-    while( node.attr('action_url') == null )
-    {
-      node = node.parent();
-    }
-    $.ajax(node.attr('action_url'));
-  })
-
   $('#modal').on('hidden', function () {
     $('#modal > .modal-header > h3').html("");
     $('#modal > .modal-body').html("");

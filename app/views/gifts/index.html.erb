@@ -11,11 +11,12 @@
   </tr>
   </thead>
   <!-- The onclick below is just to make safari on iPad work. -->
-  <tbody data-toggle="modal" href="#modal" onclick="">
+  <tbody>
   <%= render @gifts %>
   </tbody>
 </table>
 
 <br/>
 
-<button data-toggle="modal" href="#modal" class="btn" action_url="<%= new_gift_path %>">New Gift</button>
+<button id="new_gift" class="btn" onclick="">New Gift</button>
+<%= open_modal_on_click "new_gift", new_gift_path %>
