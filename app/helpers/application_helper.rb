@@ -12,4 +12,8 @@ module ApplicationHelper
     raw "<script>$('##{element_id}').click( function( ){$.ajax('#{ajax_path}');$('#modal').modal( 'show' );});</script>"
   end
 
+  def link_button_to_simple_form_submit( button_id )
+    raw "$('##{button_id}').click( function(){\n$('.simple_form').submit();\n});"
+  end
+
 end

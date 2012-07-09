@@ -38,10 +38,9 @@ class GiftsController < ApplicationController
   def update
     @gift = Gift.find(params[:id])
 
-    if @gift.update_attributes(params[:gift])
-      redirect_to @gift, notice: 'Gift was successfully updated.'
-    else
-      render action: :edit
+    @saved = @gift.update_attributes(params[:gift])
+    if @saved
+      flash[:notice] = 'Gift was successfully updated.'
     end
   end
 
