@@ -1,0 +1,24 @@
+<h1>Listing dropbox_images</h1>
+
+<table class="table table-bordered table-condensed" id="gifts_table">
+  <thead>
+  <tr>
+    <th>Filename</th>
+    <th>Thumbnail</th>
+    <th>Url</th>
+    <th>Expires</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @dropbox_images.each do |dropbox_image| %>
+    <tr>
+      <td><%= dropbox_image.filename %></td>
+      <td><img src="<%= thumbnail_dropbox_image_path(dropbox_image.id) %>"/></td>
+      <td><%= dropbox_image.url %></td>
+      <td><%= dropbox_image.expires %></td>
+      <td><%= link_to 'Delete', dropbox_image, method: :delete %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

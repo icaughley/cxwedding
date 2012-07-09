@@ -1,8 +1,14 @@
-<table data-toggle="modal" href="#modal" onclick="">
-  <% @images.each do |image| %>
-    <tr action_url="/dropbox/show?img=<%= image %>">
-      <td><%= image %>"</td>
-      <td><img src="/dropbox/thumbnail?img=<%= image %>"/></td>
-    </tr>
-  <% end %>
-</table>
+
+<div id="progress" class="progress progress-striped active">
+  <div class="bar" style="width: 0%"></div>
+</div>
+
+<div id="image_well" class="well">
+  <%= render @images %>
+</div>
+
+<script>
+  $(function () {
+    $.ajax('/dropbox/import/0');
+  });
+</script>

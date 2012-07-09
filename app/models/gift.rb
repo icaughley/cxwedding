@@ -2,6 +2,7 @@ class Gift < ActiveRecord::Base
   attr_accessible :description, :location, :title, :value
 
   belongs_to :user
+  belongs_to :dropbox_image
 
   validates_presence_of :description, :location, :title, :value
 

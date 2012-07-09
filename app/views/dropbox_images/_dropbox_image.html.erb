@@ -1,0 +1,4 @@
+<span id="<%= dom_id(dropbox_image) %>" onclick="">
+      <img src="/dropbox/thumbnail/<%= dropbox_image.id %>"/>
+    </span>
+<%= open_modal_on_click dom_id(dropbox_image), "/dropbox/show/#{dropbox_image.id}" %>

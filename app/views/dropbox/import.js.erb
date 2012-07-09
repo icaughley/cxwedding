@@ -1,0 +1,12 @@
+$('#progress').html('<div class="bar" style="width: <%=@progress%>%"></div>');
+<% if @image %>
+$('#image_well').append('<%=escape_javascript( render @image ) %>');
+<% end %>
+
+<% if @progress < 100 %>
+$.ajax('/dropbox/import/<%= @next_index %>');
+<% else %>
+$('#import_button').button('reset');
+<%= update_flash_messages %>
+$('#progress').hide();
+<% end %>

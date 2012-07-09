@@ -12,7 +12,7 @@ class DropboxController < ApplicationController
   before_filter :authenticate_user!
   before_filter :must_be_admin!
 
-  before_filter :must_have_dropbox_authority, only: [:index, :thumbnail, :show]
+  before_filter :must_have_dropbox_authority, except: [:authorize]
 
   def authorize
     if not params[:oauth_token] then
@@ -34,17 +34,16 @@ class DropboxController < ApplicationController
   def index
     return redirect_to(:action => 'authorize') unless @client
 
-    @info = @client.metadata('/')
+    @info = @client.metadata('/')["contents"]
 
-    @images = @client.metadata('/')["contents"].map { |c| c["path"] }
-
+    @images = DropboxImage.all
 
     #@folder_url = @client.media( '/IMAG0001.jpg' )[ "url" ]
     #@poik = $contents.map{ |c| @client.media( c[ "path" ] )[ "url" ]}
   end
 
   def thumbnail
-    thumbnail_blob = @client.thumbnail(params[:img], 'medium')
+    thumbnail_blob = DropboxImage.find(params[:id]).thumbnail
     render text: thumbnail_blob, content_type: 'image/jpeg'
     #img = Magick::Image.from_blob( thumbnail_blob )
     #small_img = img.first.minify
@@ -52,15 +51,54 @@ class DropboxController < ApplicationController
   end
 
   def show
-    @image_name = params[:img]
-    @image_url = @client.media( @image_name )[ "url" ]
+    @dropbox_image = DropboxImage.find(params[:id])
+
+    if @dropbox_image.expired?
+      media = @client.media(@dropbox_image.filename)
+      @dropbox_image.url = media["url"]
+      @dropbox_image.expires = media["expires"]
+      @dropbox_image.save
+    end
   end
+
+  def import
+
+
+    #DropboxImage.delete_all
+
+
+    contents = @client.metadata('/')["contents"]
+
+    index = params[:id].to_i
+    @next_index = index + 1
+
+    if @next_index == contents.length
+      @progress = 100
+      flash[:notice] = 'All images imported.'
+    else
+      @progress = (@next_index * 100.0 / contents.length).to_i
+    end
+
+    image_path = contents[index]["path"]
+
+    return if DropboxImage.exists?(filename: image_path)
+
+    dropbox_image = DropboxImage.new
+
+    dropbox_image.filename = image_path
+    dropbox_image.thumbnail = @client.thumbnail(ERB::Util.url_encode(image_path), 'large')
+
+    dropbox_image.save!
+
+    @image = dropbox_image
+  end
+
 
   private
 
   def save_session(dbsession)
     session[:dropbox_session] = dbsession.serialize
-    SystemProperty.set!( SystemProperty::DB_SESSION, session[:dropbox_session] )
+    SystemProperty.set!(SystemProperty::DB_SESSION, session[:dropbox_session])
   end
 
   # Called by the before_filter
