@@ -1,4 +1,4 @@
-$('#modal > .modal-header > h3').text( 'New Gift');
-$('#modal > .modal-body').html( '<%= escape_javascript( render 'form' ) %>');
-$('#modal > .modal-footer').html( '<%= escape_javascript( render 'new_buttons' ) %>');
+<%= modal_header_text :form, 'New Gift' %>
+<%= modal_body_render :form, 'form' %>
+<%= modal_footer_render :form, 'new_buttons' %>
 <%= link_button_to_simple_form_submit 'new_submit' %>

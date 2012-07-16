@@ -1,11 +1,15 @@
 require 'dropbox_sdk'
 require 'RMagick'
+require 'open-uri'
 
 include Magick
 
 APP_KEY = "kzkmfhkkp2wlwi6"
 APP_SECRET = "vebt1gaq7aa7yfb"
 ACCESS_TYPE = :app_folder
+
+MAX_WIDTH = 480
+MAX_HEIGHT = 480
 
 class DropboxController < ApplicationController
 
@@ -34,7 +38,7 @@ class DropboxController < ApplicationController
   def index
     return redirect_to(:action => 'authorize') unless @client
 
-    @info = @client.metadata('/')["contents"]
+    #@info = @client.metadata('/')["contents"]
 
     @images = DropboxImage.all
 
@@ -45,9 +49,6 @@ class DropboxController < ApplicationController
   def thumbnail
     thumbnail_blob = DropboxImage.find(params[:id]).thumbnail
     render text: thumbnail_blob, content_type: 'image/jpeg'
-    #img = Magick::Image.from_blob( thumbnail_blob )
-    #small_img = img.first.minify
-    #render text: small_img.to_blob, content_type: 'image/jpeg'
   end
 
   def show
@@ -62,11 +63,6 @@ class DropboxController < ApplicationController
   end
 
   def import
-
-
-    #DropboxImage.delete_all
-
-
     contents = @client.metadata('/')["contents"]
 
     index = params[:id].to_i
@@ -89,6 +85,13 @@ class DropboxController < ApplicationController
     dropbox_image.thumbnail = @client.thumbnail(ERB::Util.url_encode(image_path), 'large')
 
     dropbox_image.save!
+
+    # Shrink the image and then put it back in the drop box.
+    magick_image = Magick::Image.from_blob(@client.get_file @dropbox_image.filename).first
+    if magick_image.columns > MAX_WIDTH or magick_image.rows > MAX_HEIGHT
+      magick_image = magick_image.resize_to_fit(MAX_WIDTH, MAX_HEIGHT)
+      @client.put_file(@dropbox_image.filename, magick_image.to_blob, true)
+    end
 
     @image = dropbox_image
   end

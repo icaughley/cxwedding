@@ -1,4 +1,3 @@
-$('#modal > .modal-header > h3').text( '<%= @dropbox_image.filename %>' );
-$('#modal > .modal-body').html( '<%= escape_javascript( raw "<img src='#{@dropbox_image.url}'>" ) %>');
-
+<%= modal_header_text :image, @dropbox_image.filename %>
+<%= modal_body_html :image, "<img src='#{@dropbox_image.url}'>" %>
 

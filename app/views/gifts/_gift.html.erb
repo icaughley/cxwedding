@@ -1,5 +1,5 @@
 <% action_url = current_user.admin? ? edit_gift_path(gift) : gift_path(gift) %>
-<tr id="row_<%= dom_id gift %>" onclick="">
+<tr id="row_<%= dom_id gift %>" onclick="" class="clickable">
   <td><%= gift.title %></td>
   <td><%= gift.description %></td>
   <td><%= gift.location %></td>
@@ -12,4 +12,4 @@
     <% end %>
   </td>
 </tr>
-<%= open_modal_on_click "row_#{dom_id gift}", action_url %>
+<%= open_modal_on_click :form, "row_#{dom_id gift}", action_url %>

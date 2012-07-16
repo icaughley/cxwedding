@@ -1,7 +1,7 @@
 <% if @saved %>
   <%= update_flash_messages %>
   $('#row_<%= dom_id(@gift)%>').replaceWith('<%= escape_javascript( render @gift )%>');
-  <%= hide_modal %>
+  <%= hide_modal :form %>
 <% else %>
-  $('#modal > .modal-body').html('<%= escape_javascript( render 'form' ) %>');
+<%= modal_body_render :form, 'form' %>
 <% end %>
