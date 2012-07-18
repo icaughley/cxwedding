@@ -17,6 +17,10 @@ Cxwedding::Application.routes.draw do
   resources :dropbox_images do
     member do
       get :thumbnail
+      post :thumb_selected
+    end
+    collection do
+      get :thumbnails
     end
   end
 

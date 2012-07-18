@@ -1,0 +1,6 @@
+<% if @image_ids.empty? %>
+  <p>You have not imported an pictures.</p>
+<% end %>
+<% @image_ids.each do |id| %>
+  <img class="clickable" data-id="<%= id %>" src="/dropbox_images/<%= id %>/thumbnail"/>
+<% end %>

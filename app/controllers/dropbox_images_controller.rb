@@ -16,6 +16,11 @@ class DropboxImagesController < ApplicationController
     render text: dropbox_image.thumbnail, content_type: 'image/jpeg'
   end
 
+  # GET /dropbox_images/thumbnails
+  def thumbnails
+    @image_ids = DropboxImage.all.map { |i| i.id }
+  end
+
   # DELETE /gifts/1
   def destroy
     @dropbox_image = DropboxImage.find(params[:id])

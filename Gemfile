@@ -26,7 +26,6 @@ gem 'jquery-rails'
 gem 'bootstrap-sass', '~>2.0'
 gem 'dropbox-sdk'
 gem 'devise'
-#gem 'on_the_spot'
 gem 'rmagick', '~>2.0'
 gem 'simple_form'
 

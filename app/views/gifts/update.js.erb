@@ -3,5 +3,6 @@
   $('#row_<%= dom_id(@gift)%>').replaceWith('<%= escape_javascript( render @gift )%>');
   <%= hide_modal :form %>
 <% else %>
-<%= modal_body_render :form, 'form' %>
+  <%= modal_body_render :form, 'form' %>
+  $('.btn').button('reset');
 <% end %>

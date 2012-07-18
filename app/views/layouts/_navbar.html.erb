@@ -1,7 +1,11 @@
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container">
-      <a class="brand" href="/">CXWedding</a>
+      <% if user_signed_in? and current_user.admin? %>
+        <a class="brand" href="/">CXWedding</a>
+      <% else %>
+        <a class="brand" href="/">Charles & Alexander's Gift Registry</a>
+      <% end %>
       <% if user_signed_in? %>
         <% if current_user.admin? %>
           <ul class="nav">

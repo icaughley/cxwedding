@@ -5,4 +5,24 @@
   <%= f.input :value, wrapper: :prepend do %>
     <span class="add-on">$</span><%= f.input_field :value %>
   <% end %>
+  <input name="gift[image_id]" id="hidden_image_id" type="hidden" value="<%=@gift.image_id%>"/>
+  <label class="string control-label" for="thumbnail">Picture</label>
+  <ul class="thumbnails">
+    <li>
+      <div class="thumbnail">
+        <%
+           if @gift.image_id.nil?
+             img_src = "http://placehold.it/128&text=No+pic+:("
+           else
+             img_src = "/dropbox_images/#{@gift.image_id}/thumbnail"
+           end
+        %>
+        <img src="<%= img_src %>"  id="thumb_img" alt="" onclick="" class="clickable"/>
+        <%= open_modal_on_click :thumbs, "thumb_img", "/dropbox_images/thumbnails" %>
+      </div>
+    </li>
+  </ul>
+
+
+
 <% end %>

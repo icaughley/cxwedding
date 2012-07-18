@@ -4,4 +4,5 @@
   <%= hide_modal :form %>
 <% else %>
   <%= modal_body_html :form, render( 'form' ) %>
+  $('.btn').button('reset');
 <% end %>

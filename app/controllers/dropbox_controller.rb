@@ -14,7 +14,7 @@ MAX_HEIGHT = 480
 class DropboxController < ApplicationController
 
   before_filter :authenticate_user!
-  before_filter :must_be_admin!
+  before_filter :must_be_admin!, except: [:show]
 
   before_filter :must_have_dropbox_authority, except: [:authorize]
 

@@ -1,0 +1,8 @@
+<%= modal_header_text :thumbs, 'Choose a picture' %>
+<%= modal_body_render :thumbs, 'thumbnails' %>
+$('#thumbs_modal > .modal-body > img').click( function( ){
+  var dataid = $(this).attr( "data-id");
+  <%= hide_modal :thumbs %>
+  $('#form_modal img#thumb_img').attr( "src", "/dropbox_images/"+dataid+"/thumbnail");
+  $('#form_modal input#hidden_image_id').attr( "value", dataid);
+});

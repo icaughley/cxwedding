@@ -1,0 +1,27 @@
+<table class="table table-bordered no-hover">
+<tr>
+  <td>
+    <% @gift.description += '.' unless @gift.description.end_with?('.') %>
+    <%= @gift.description %>
+    <br/>
+    <br/>
+    Available from <%= @gift.location %>
+    for $<%= @gift.value %>.
+  <td>
+    <ul class="thumbnails">
+      <li>
+        <div class="thumbnail">
+          <% if @gift.image_id.nil? %>
+          <img src="http://placehold.it/128&text=No+pic+:(" alt="">
+          <% else %>
+            <span id="thumbnail" onclick="" class="clickable">
+              <img class="clickable" id="thumb_img" src="/dropbox_images/<%= @gift.image_id %>/thumbnail"/>
+            </span>
+            <%= open_modal_on_click :image, "thumb_img", "/dropbox/show/#{@gift.image_id}" %>
+        <% end %>
+        </div>
+      </li>
+    </ul>
+  </td>
+</tr>
+</table>
