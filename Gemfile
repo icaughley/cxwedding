@@ -12,8 +12,7 @@ gem 'therubyracer', '~> 0.11'
 ##################################################
 #
 # Heroku config:
-#gem 'thin'
-gem 'pg'
+gem 'thin'
 #
 # Local config:
 #
@@ -29,6 +28,8 @@ group :assets do
 
   gem 'uglifier', '>= 1.0.3'
 end
+
+gem 'pg'
 
 gem 'rmagick', '~>2.0'
 gem 'jquery-rails'
