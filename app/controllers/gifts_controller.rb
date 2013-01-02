@@ -2,9 +2,6 @@ class GiftsController < ApplicationController
 
   before_filter :authenticate_user!
 
-  #can_edit_on_the_spot
-
-
   # GET /gifts
   def index
     @gifts = Gift.all

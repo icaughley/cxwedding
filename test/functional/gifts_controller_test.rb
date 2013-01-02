@@ -2,7 +2,10 @@ require 'test_helper'
 
 class GiftsControllerTest < ActionController::TestCase
   setup do
-    @gift = gifts(:one)
+    @gift = FactoryGirl.create(:gift)
+    @controller.expects(:authenticate_user!)
+    current_user = FactoryGirl.build(:user)
+    @controller.stubs(:current_user).returns(current_user)
   end
 
   test "should get index" do
@@ -12,38 +15,39 @@ class GiftsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new
+    xhr :get, :new
     assert_response :success
   end
 
   test "should create gift" do
     assert_difference('Gift.count') do
-      post :create, gift: { description: @gift.description, location: @gift.location, title: @gift.title, value: @gift.value }
+      xhr :post, :create, gift: { description: @gift.description, location: @gift.location, title: @gift.title, value: @gift.value }
     end
-
-    assert_redirected_to gift_path(assigns(:gift))
+    assert_response :success
   end
 
   test "should show gift" do
-    get :show, id: @gift
+    xhr :get, :show, id: @gift
     assert_response :success
+    assert_equal @gift, assigns(:gift)
   end
 
   test "should get edit" do
-    get :edit, id: @gift
+    xhr :get, :edit, id: @gift
     assert_response :success
+    assert_equal @gift, assigns(:gift)
   end
 
   test "should update gift" do
-    put :update, id: @gift, gift: { description: @gift.description, location: @gift.location, title: @gift.title, value: @gift.value }
-    assert_redirected_to gift_path(assigns(:gift))
+    xhr :put, :update, id: @gift, gift: { description: @gift.description, location: @gift.location, title: @gift.title, value: @gift.value }
+    assert_response :success
+    assert_not_nil assigns(:gift)
   end
 
   test "should destroy gift" do
     assert_difference('Gift.count', -1) do
-      delete :destroy, id: @gift
+      xhr :delete, :destroy, id: @gift
     end
-
-    assert_redirected_to gifts_path
+    assert_response :success
   end
 end
