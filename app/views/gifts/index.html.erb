@@ -1,3 +1,9 @@
+<% if !current_user.admin? %>
+  <div class="image-banner">
+     <%= image_tag "20353_443801205322_4937963_n.jpg" %>
+  </div>
+<% end %>
+
 <h1>Gifts</h1>
 
 <table class="table table-bordered table-condensed" id="gifts_table">
@@ -17,5 +23,7 @@
 
 <br/>
 
-<button id="new_gift" class="btn" onclick="">New Gift</button>
-<%= open_modal_on_click :form, "new_gift", new_gift_path %>
+<% if current_user.admin? %>
+  <button id="new_gift" class="btn" onclick="">New Gift</button>
+  <%= open_modal_on_click :form, "new_gift", new_gift_path %>
+<% end %>
