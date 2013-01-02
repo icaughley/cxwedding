@@ -2,10 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.9'
 
-# The next two are needed to run Rails on Ubuntu. They shouldn't be required for Heroku.
-gem 'libv8', '~> 3.11'
-gem 'therubyracer', '~> 0.11'
-
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
@@ -27,6 +23,23 @@ group :assets do
   # gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+end
+
+#Gems used only for testing
+group :test do
+  gem 'shoulda'
+  gem 'mocha'
+  gem 'capybara'
+end
+
+group :development, :test do
+  gem 'factory_girl_rails'
+end
+
+# The next two are needed to run Rails on Ubuntu. They shouldn't be required for Heroku.
+group :development do
+  gem 'libv8', '~> 3.11'
+  gem 'therubyracer', '~> 0.11'
 end
 
 gem 'pg'
