@@ -1,19 +1,12 @@
 
+#This controller is only kept around for debugging and admin.
 class DropboxImagesController < ApplicationController
+
+  before_filter :authenticate_user!
+
   # GET /dropbox_images
   def index
     @dropbox_images = DropboxImage.all
-  end
-
-  # GET /dropbox_images/1
-  def show
-    @dropbox_image = DropboxImage.find(params[:id])
-  end
-
-  # GET /dropbox_images/thumbnail/1
-  def thumbnail
-    dropbox_image = DropboxImage.find(params[:id])
-    render text: dropbox_image.thumbnail, content_type: 'image/jpeg'
   end
 
   # GET /dropbox_images/thumbnails
