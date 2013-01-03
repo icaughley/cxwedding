@@ -15,15 +15,10 @@ class DropboxController < ApplicationController
 
   before_filter :authenticate_user!
   before_filter :must_be_admin!, except: [:show]
-
   before_filter :must_have_dropbox_authority, except: [:authorize]
 
   def authorize
-    if not params[:oauth_token] then
-      dbsession = DropboxSession.new(APP_KEY, APP_SECRET)
-      session[:dropbox_session] = dbsession.serialize
-      redirect_to dbsession.get_authorize_url url_for(:action => 'authorize')
-    else
+    if params[:oauth_token]
       # the user has returned from Dropbox
       dbsession = DropboxSession.deserialize(session[:dropbox_session])
       dbsession.get_access_token
@@ -31,24 +26,18 @@ class DropboxController < ApplicationController
       # Save dbsession to DB and session
       save_session(dbsession)
 
-      redirect_to :action => 'index'
+      redirect_to action: :index
+    else
+      dbsession = DropboxSession.new(APP_KEY, APP_SECRET)
+      session[:dropbox_session] = dbsession.serialize
+      redirect_to dbsession.get_authorize_url url_for(action: 'authorize')
     end
   end
 
   def index
-    return redirect_to(:action => 'authorize') unless @client
-
-    #@info = @client.metadata('/')["contents"]
+    return redirect_to(action: :authorize) unless @client
 
     @images = DropboxImage.all
-
-    #@folder_url = @client.media( '/IMAG0001.jpg' )[ "url" ]
-    #@poik = $contents.map{ |c| @client.media( c[ "path" ] )[ "url" ]}
-  end
-
-  def thumbnail
-    thumbnail_blob = DropboxImage.find(params[:id]).thumbnail
-    render text: thumbnail_blob, content_type: 'image/jpeg'
   end
 
   def show
@@ -76,18 +65,20 @@ class DropboxController < ApplicationController
     end
 
     image_path = contents[index]["path"]
+    image_path = image_path[1..-1] if image_path[0] == '/'
 
     return if DropboxImage.exists?(filename: image_path)
 
     dropbox_image = DropboxImage.new
 
     dropbox_image.filename = image_path
-    dropbox_image.thumbnail = @client.thumbnail(ERB::Util.url_encode(image_path), 'large')
+
+    dropbox_image.thumbnail = @client.thumbnail(ERB::Util.url_encode(image_path), 'm')
 
     dropbox_image.save!
 
     # Shrink the image and then put it back in the drop box.
-    magick_image = Magick::Image.from_blob(@client.get_file @dropbox_image.filename).first
+    magick_image = Magick::Image.from_blob(@client.get_file dropbox_image.filename).first
     if magick_image.columns > MAX_WIDTH or magick_image.rows > MAX_HEIGHT
       magick_image = magick_image.resize_to_fit(MAX_WIDTH, MAX_HEIGHT)
       @client.put_file(@dropbox_image.filename, magick_image.to_blob, true)

@@ -14,7 +14,7 @@ Cxwedding::Application.routes.draw do
     put 'toggle_admin'
   end
 
-  resources :dropbox_images do
+  resources :dropbox_images, only: [:index, :destroy] do
     member do
       get :thumbnail
       post :thumb_selected
@@ -27,7 +27,6 @@ Cxwedding::Application.routes.draw do
 
   match 'dropbox/authorize' => 'dropbox#authorize'
   match 'dropbox/upload' => 'dropbox#upload'
-  match 'dropbox/thumbnail/:id' => 'dropbox#thumbnail'
   match 'dropbox/show/:id' => 'dropbox#show'
   match 'dropbox/import/:id' => 'dropbox#import'
   match 'dropbox' => 'dropbox#index'

@@ -2,5 +2,5 @@
   <p>You have not imported an pictures.</p>
 <% end %>
 <% @image_ids.each do |id| %>
-  <img class="clickable" data-id="<%= id %>" src="/dropbox_images/<%= id %>/thumbnail"/>
+  <img class="clickable" data-id="<%= id %>" src="<%= thumbnail_dropbox_image_path ( id  )%>"/>
 <% end %>
