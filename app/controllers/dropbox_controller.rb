@@ -1,14 +1,4 @@
-require 'dropbox_sdk'
-require 'RMagick'
 require 'open-uri'
-
-include Magick
-
-APP_KEY = "kzkmfhkkp2wlwi6"
-APP_SECRET = "vebt1gaq7aa7yfb"
-
-MAX_WIDTH = 480
-MAX_HEIGHT = 480
 
 class DropboxController < ApplicationController
 
@@ -21,7 +11,7 @@ class DropboxController < ApplicationController
       DropboxHelper.store_dropbox_session( session )
       redirect_to action: :index
     else
-      dbsession = DropboxSession.new(APP_KEY, APP_SECRET)
+      dbsession = DropboxHelper.new_session
       session[:dropbox_session] = dbsession.serialize
       redirect_to dbsession.get_authorize_url url_for(action: 'authorize')
     end
@@ -59,6 +49,7 @@ class DropboxController < ApplicationController
     end
 
     image_path = contents[index]["path"]
+    # Remove leading / if one exists
     image_path = image_path[1..-1] if image_path[0] == '/'
 
     return if DropboxImage.exists?(filename: image_path)
@@ -68,12 +59,7 @@ class DropboxController < ApplicationController
     dropbox_image.thumbnail = @client.thumbnail(ERB::Util.url_encode(image_path), 'm')
     dropbox_image.save!
 
-    # Shrink the image and then put it back in the drop box.
-    magick_image = Magick::Image.from_blob(@client.get_file dropbox_image.filename).first
-    if magick_image.columns > MAX_WIDTH or magick_image.rows > MAX_HEIGHT
-      magick_image = magick_image.resize_to_fit(MAX_WIDTH, MAX_HEIGHT)
-      @client.put_file(@dropbox_image.filename, magick_image.to_blob, true)
-    end
+    DropboxHelper.shrink_image( @client, dropbox_image )
 
     @image = dropbox_image
   end
