@@ -28,4 +28,17 @@ class DropboxImagesControllerTest < ActionController::TestCase
     assert_equal [@dropbox_image.id], assigns(:image_ids)
   end
 
+  test "should show image if not expired" do
+    xhr :get, :show, id: @dropbox_image
+    assert_response :success
+    assert_equal @dropbox_image, assigns( :dropbox_image )
+  end
+
+  test "should redirect to dropbox controller if image has expired" do
+    @expired_image = FactoryGirl.create(:dropbox_image, expires: 1.day.ago)
+    xhr :get, :show, id: @expired_image
+    assert_response :redirect
+    assert_redirected_to controller: :dropbox, action: :refresh
+  end
+
 end

@@ -6,7 +6,6 @@ include Magick
 
 APP_KEY = "kzkmfhkkp2wlwi6"
 APP_SECRET = "vebt1gaq7aa7yfb"
-ACCESS_TYPE = :app_folder
 
 MAX_WIDTH = 480
 MAX_HEIGHT = 480
@@ -14,18 +13,12 @@ MAX_HEIGHT = 480
 class DropboxController < ApplicationController
 
   before_filter :authenticate_user!
-  before_filter :must_be_admin!, except: [:show]
+  before_filter :must_be_admin!, except: [:refresh]
   before_filter :must_have_dropbox_authority, except: [:authorize]
 
   def authorize
     if params[:oauth_token]
-      # the user has returned from Dropbox
-      dbsession = DropboxSession.deserialize(session[:dropbox_session])
-      dbsession.get_access_token
-
-      # Save dbsession to DB and session
-      save_session(dbsession)
-
+      DropboxHelper.store_dropbox_session( session )
       redirect_to action: :index
     else
       dbsession = DropboxSession.new(APP_KEY, APP_SECRET)
@@ -40,15 +33,16 @@ class DropboxController < ApplicationController
     @images = DropboxImage.all
   end
 
-  def show
+  # Refreshes an image that has expired
+  def refresh
     @dropbox_image = DropboxImage.find(params[:id])
 
-    if @dropbox_image.expired?
-      media = @client.media(@dropbox_image.filename)
-      @dropbox_image.url = media["url"]
-      @dropbox_image.expires = media["expires"]
-      @dropbox_image.save
-    end
+    media = @client.media(@dropbox_image.filename)
+    @dropbox_image.url = media["url"]
+    @dropbox_image.expires = media["expires"]
+    @dropbox_image.save!
+
+    redirect_to @dropbox_image
   end
 
   def import
@@ -70,11 +64,8 @@ class DropboxController < ApplicationController
     return if DropboxImage.exists?(filename: image_path)
 
     dropbox_image = DropboxImage.new
-
     dropbox_image.filename = image_path
-
     dropbox_image.thumbnail = @client.thumbnail(ERB::Util.url_encode(image_path), 'm')
-
     dropbox_image.save!
 
     # Shrink the image and then put it back in the drop box.
@@ -90,28 +81,8 @@ class DropboxController < ApplicationController
 
   private
 
-  def save_session(dbsession)
-    session[:dropbox_session] = dbsession.serialize
-    SystemProperty.set!(SystemProperty::DB_SESSION, session[:dropbox_session])
-  end
-
   # Called by the before_filter
   def must_have_dropbox_authority
-    if session[:dropbox_session]
-      dbsession = DropboxSession.deserialize(session[:dropbox_session])
-    else
-      database_session = SystemProperty.get(SystemProperty::DB_SESSION)
-      if database_session
-        dbsession = DropboxSession.deserialize(database_session)
-      else
-        return
-      end
-    end
-
-    begin
-      @client = DropboxClient.new(dbsession, ACCESS_TYPE)
-    rescue
-      @client = nil
-    end
+    @client = DropboxHelper.create_client( session )
   end
 end

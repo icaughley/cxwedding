@@ -17,7 +17,7 @@
             <span id="thumbnail" onclick="" class="clickable">
               <img class="clickable" id="thumb_img" src="/dropbox_images/<%= @gift.image_id %>/thumbnail"/>
             </span>
-            <%= open_modal_on_click :image, "thumb_img", "/dropbox/show/#{@gift.image_id}" %>
+            <%= open_modal_on_click :image, "thumb_img", dropbox_image_path( @gift.image_id ) %>
         <% end %>
         </div>
       </li>

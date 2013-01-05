@@ -9,6 +9,15 @@ class DropboxImagesController < ApplicationController
     @dropbox_images = DropboxImage.all
   end
 
+  # GET /dropbox_images/1
+  def show
+    @dropbox_image = DropboxImage.find(params[:id])
+
+    if @dropbox_image.expired?
+      redirect_to controller: :dropbox, action: :refresh, :id => params[:id]
+    end
+  end
+
   # GET /dropbox_images/thumbnail/1
   def thumbnail
     thumbnail_blob = DropboxImage.find(params[:id]).thumbnail

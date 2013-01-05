@@ -14,7 +14,7 @@ Cxwedding::Application.routes.draw do
     put 'toggle_admin'
   end
 
-  resources :dropbox_images, only: [:index, :destroy] do
+  resources :dropbox_images, only: [:index, :show, :destroy] do
     member do
       get :thumbnail
       post :thumb_selected
@@ -24,11 +24,10 @@ Cxwedding::Application.routes.draw do
     end
   end
 
-
   match 'dropbox/authorize' => 'dropbox#authorize'
   match 'dropbox/upload' => 'dropbox#upload'
-  match 'dropbox/show/:id' => 'dropbox#show'
   match 'dropbox/import/:id' => 'dropbox#import'
+  match 'dropbox/refresh/:id' => 'dropbox#refresh'
   match 'dropbox' => 'dropbox#index'
 
   # The priority is based upon order of creation:
