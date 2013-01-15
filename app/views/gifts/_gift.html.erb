@@ -11,6 +11,9 @@
       <span class="badge badge-success"><i class="icon-exclamation-sign icon-white"></i> Yours</span>
     <% else %>
       <span class="badge badge-important"><i class="icon-minus-sign icon-white"></i> Taken</span>
+      <% if current_user.admin? %>
+        by <%= gift.user.name %>
+      <% end %>
     <% end %>
   </td>
 </tr>
