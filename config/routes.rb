@@ -5,8 +5,9 @@ Cxwedding::Application.routes.draw do
   devise_for :users
 
   resources :gifts do
-    collection do
-      put :update_attribute_on_the_spot
+    member do
+      post :link_user
+      post :unlink_user
     end
   end
 

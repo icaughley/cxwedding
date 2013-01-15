@@ -47,4 +47,30 @@ class GiftsController < ApplicationController
     @gift.destroy
     flash[:notice] = 'Gift has been deleted.'
   end
+
+  # POST /gifts/1/link_user
+  def link_user
+    @gift = Gift.find(params[:id])
+
+    if @gift.user.nil?
+      @gift.user = current_user
+      @gift.save!
+      flash[:notice] = 'That gift is yours to bring. Thanks! You can select up to 3 gifts.'
+    else
+      flash[:error] = 'Dang... that gift was just taken by somebody else.'
+    end
+  end
+
+  # POST /gifts/1/unlink_user
+  def unlink_user
+    @gift = Gift.find(params[:id])
+
+    if @gift.user == current_user
+      @gift.user = nil
+      @gift.save!
+      flash[:notice] = 'That gift is released for others to claim.'
+    else
+      flash[:error] = 'Odd... that gift had not been linked to you.'
+    end
+  end
 end

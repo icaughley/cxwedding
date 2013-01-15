@@ -1,0 +1,10 @@
+<a href="#" class="btn" data-dismiss="modal">Close</a>
+<% if @gift.user == current_user %>
+  <%= link_to "Don't want to get this", unlink_user_gift_path( @gift ), method: :post, remote: true, class: 'btn btn-warning', "data-loading-text" => "Saving..." %>
+<% elsif !@gift.user.nil? %>
+  <button class="btn btn-warning" id="does_nothing" >Somebody else's</button>
+<% elsif !current_user.can_link_more_gifts? %>
+  <button class="btn btn-danger" id="does_nothing" >You have already selected 3 gifts</button>
+<% else %>
+  <%= link_to "I'll get that", link_user_gift_path( @gift ), method: :post, remote: true, class: 'btn btn-primary', "data-loading-text" => "Saving..." %>
+<% end %>

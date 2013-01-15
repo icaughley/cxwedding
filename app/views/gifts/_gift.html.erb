@@ -6,9 +6,11 @@
   <td>$<%= gift.value %></td>
   <td>
     <% if gift.user.nil? %>
-      <span class="badge badge-success"><i class="icon-ok-sign icon-white"></i> Available</span>
+      <span class="badge badge-info"><i class="icon-ok-sign icon-white"></i> Available</span>
+    <% elsif gift.user ==  current_user %>
+      <span class="badge badge-success"><i class="icon-exclamation-sign icon-white"></i> Yours</span>
     <% else %>
-      <span class="btn btn-danger"><i class="icon-minus-sign icon-white"></i> taken</span>
+      <span class="badge badge-important"><i class="icon-minus-sign icon-white"></i> Taken</span>
     <% end %>
   </td>
 </tr>

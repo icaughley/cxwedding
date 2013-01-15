@@ -13,8 +13,14 @@ class User < ActiveRecord::Base
 
   has_many :gifts
 
+  MAX_GIFTS = 3
+
   # The number 1 user is always an admin
   def set_first_to_admin
     self.admin = true if( id == 1 )
+  end
+
+  def can_link_more_gifts?
+    self.gifts.size < MAX_GIFTS
   end
 end
