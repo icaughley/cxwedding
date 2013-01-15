@@ -8,6 +8,11 @@
 </head>
 <body>
 <%=  render 'layouts/navbar' %>
+<% unless current_user.nil? || current_user.admin? %>
+  <div class="image-banner">
+    <%= image_tag "20353_443801205322_4937963_n.jpg" %>
+  </div>
+<% end %>
 <div class="container">
   <div class="content">
     <div id="flash_messages">
