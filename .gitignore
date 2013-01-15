@@ -20,4 +20,3 @@
 .idea
 .generators
 db/schema.rb
-Gemfile.lock
