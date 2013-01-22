@@ -1,6 +1,7 @@
 class AdminMailer < ActionMailer::Base
-  default from: "Ian@Caughley.id.au",
-          url: "http://graywedding.heroku.com"
+  default from: "Ian@Caughley.id.au"
+
+  URL = "http://graywedding.heroku.com"
 
   def new_user_email( user )
     @user = user
