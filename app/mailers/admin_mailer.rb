@@ -1,5 +1,5 @@
 class AdminMailer < ActionMailer::Base
-  default from: "Ian@Caughley.id.au"
+  default from: "no-reply@graywedding.heroku.com"
 
   URL = "http://graywedding.heroku.com"
 
