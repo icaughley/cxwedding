@@ -55,6 +55,7 @@ class GiftsController < ApplicationController
     if @gift.user.nil?
       @gift.user = current_user
       @gift.save!
+      AdminMailer.gift_linked_email( current_user, @gift ).deliver
       flash[:notice] = 'That gift is yours to bring. Thanks! You can select up to 3 gifts.'
     else
       flash[:error] = 'Dang... that gift was just taken by somebody else.'
@@ -68,6 +69,7 @@ class GiftsController < ApplicationController
     if @gift.user == current_user
       @gift.user = nil
       @gift.save!
+      AdminMailer.gift_unlinked_email( current_user, @gift ).deliver
       flash[:notice] = 'That gift is released for others to claim.'
     else
       flash[:error] = 'Odd... that gift had not been linked to you.'

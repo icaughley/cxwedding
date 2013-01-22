@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
 
   has_many :gifts
 
+  scope :admins, where( admin: true )
+
   MAX_GIFTS = 3
 
   # The number 1 user is always an admin
