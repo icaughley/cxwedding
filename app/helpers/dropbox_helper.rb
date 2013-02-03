@@ -9,8 +9,8 @@ module DropboxHelper
   MAX_WIDTH = 480
   MAX_HEIGHT = 480
 
-  APP_KEY = "kzkmfhkkp2wlwi6"
-  APP_SECRET = "vebt1gaq7aa7yfb"
+  APP_KEY = "gawk9t05gjjh59f"
+  APP_SECRET = "eg9sx977acq39ha"
 
   def self.create_client(session)
     if session[:dropbox_session]
