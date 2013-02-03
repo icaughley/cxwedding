@@ -21,7 +21,7 @@ class GiftsControllerTest < ActionController::TestCase
 
   test "should create gift" do
     assert_difference('Gift.count') do
-      xhr :post, :create, gift: { description: @gift.description, location: @gift.location, title: @gift.title, value: @gift.value }
+      xhr :post, :create, gift: { description: @gift.description, title: @gift.title, value: @gift.value }
     end
     assert_response :success
   end
@@ -39,7 +39,7 @@ class GiftsControllerTest < ActionController::TestCase
   end
 
   test "should update gift" do
-    xhr :put, :update, id: @gift, gift: { description: @gift.description, location: @gift.location, title: @gift.title, value: @gift.value }
+    xhr :put, :update, id: @gift, gift: { description: @gift.description, title: @gift.title, value: @gift.value }
     assert_response :success
     assert_not_nil assigns(:gift)
   end

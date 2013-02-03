@@ -2,8 +2,7 @@
 <tr id="row_<%= dom_id gift %>" onclick="" class="clickable">
   <td><%= gift.title %></td>
   <td><%= gift.description %></td>
-  <td><%= gift.location %></td>
-  <td>$<%= gift.value %></td>
+  <td><%= gift.value %></td>
   <td>
     <% if gift.user.nil? %>
       <span class="badge badge-info"><i class="icon-ok-sign icon-white"></i> Available</span>

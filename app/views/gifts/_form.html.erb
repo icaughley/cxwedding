@@ -1,10 +1,7 @@
 <%= simple_form_for(@gift, remote: true, html: {class: "form-horizontal"}) do |f| %>
   <%= f.input :title %>
   <%= f.input :description %>
-  <%= f.input :location %>
-  <%= f.input :value, wrapper: :prepend do %>
-    <span class="add-on">$</span><%= f.input_field :value %>
-  <% end %>
+  <%= f.input :value %>
   <input name="gift[image_id]" id="hidden_image_id" type="hidden" value="<%=@gift.image_id%>"/>
   <label class="string control-label" for="thumbnail">Picture</label>
   <ul class="thumbnails">
