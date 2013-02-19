@@ -1,10 +1,8 @@
 class Gift < ActiveRecord::Base
-  attr_accessible :description, :location, :title, :value, :image_id
+  attr_accessible :description, :title, :value, :image_id
 
   belongs_to :user
   belongs_to :dropbox_image, foreign_key: 'image_id'
 
-  validates_presence_of :description, :location, :title, :value
-
-  validates_numericality_of :value
+  validates_presence_of :description, :title, :value
 end

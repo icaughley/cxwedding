@@ -5,8 +5,8 @@
     <%= @gift.description %>
     <br/>
     <br/>
-    Available from <%= @gift.location %>
-    for $<%= @gift.value %>.
+    <% @gift.value += '.' unless @gift.value.end_with?('.') %>
+    Value: <%= @gift.value %>
   <td>
     <ul class="thumbnails">
       <li>
