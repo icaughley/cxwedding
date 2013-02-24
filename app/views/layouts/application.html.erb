@@ -10,7 +10,7 @@
 <%=  render 'layouts/navbar' %>
 <% unless current_user.nil? || current_user.admin? %>
   <div class="image-banner">
-    <% image_tag "banner.jpg" %>
+    <%= image_tag "banner.jpg" %>
   </div>
 <% end %>
 <div class="container">
