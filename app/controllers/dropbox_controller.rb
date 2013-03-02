@@ -64,7 +64,8 @@ class DropboxController < ApplicationController
       DropboxHelper.shrink_image( @client, dropbox_image )
 
       @image = dropbox_image
-    rescue
+    rescue Exception => e
+      logger.error("Error with dropbox thumbnail: #{e.message}")
       @image = nil
     end
   end
