@@ -56,12 +56,17 @@ class DropboxController < ApplicationController
 
     dropbox_image = DropboxImage.new
     dropbox_image.filename = image_path
-    dropbox_image.thumbnail = @client.thumbnail(ERB::Util.url_encode(image_path), 'm')
-    dropbox_image.save!
 
-    DropboxHelper.shrink_image( @client, dropbox_image )
+    begin
+      dropbox_image.thumbnail = @client.thumbnail(ERB::Util.url_encode(image_path), 'm')
+      dropbox_image.save!
 
-    @image = dropbox_image
+      DropboxHelper.shrink_image( @client, dropbox_image )
+
+      @image = dropbox_image
+    rescue
+      @image = nil
+    end
   end
 
 
