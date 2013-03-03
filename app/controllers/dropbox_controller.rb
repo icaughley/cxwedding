@@ -58,14 +58,20 @@ class DropboxController < ApplicationController
     dropbox_image.filename = image_path
 
     begin
+      DropboxHelper.shrink_image( @client, dropbox_image )
+    rescue Exception => e
+      p "****** Error with shrinking images: #{e.message}"
+      @image = nil
+      return
+    end
+
+    begin
       dropbox_image.thumbnail = @client.thumbnail(ERB::Util.url_encode(image_path), 'm')
       dropbox_image.save!
 
-      DropboxHelper.shrink_image( @client, dropbox_image )
-
       @image = dropbox_image
     rescue Exception => e
-      logger.error("Error with dropbox thumbnail: #{e.message}")
+      p "****** Error with dropbox thumbnail: #{e.message}"
       @image = nil
     end
   end
