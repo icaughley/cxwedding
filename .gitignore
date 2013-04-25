@@ -20,3 +20,5 @@
 .idea
 .generators
 db/schema.rb
+
+.elasticbeanstalk/
