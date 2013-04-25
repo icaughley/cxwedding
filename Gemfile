@@ -42,7 +42,8 @@ group :development do
   gem 'therubyracer', '~> 0.11'
 end
 
-gem 'pg'
+# gem 'pg'
+gem 'mysql2'
 
 gem 'rmagick', '~>2.0'
 gem 'jquery-rails'
